@@ -1,0 +1,17 @@
+{
+  "name": "discord-timestamp-generator-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wissididom",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.5.0",
+    "dotenv": "^16.0.3",
+    "luxon": "^3.0.4"
+  }
+}
