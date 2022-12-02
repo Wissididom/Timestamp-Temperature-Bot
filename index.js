@@ -31,6 +31,7 @@ client.on("interactionCreate", async interaction => {
 								`<t:${unix}:F>: \`<t:${unix}:F>\`\n<t:${unix}:R>: \`<t:${unix}:R>\``,
 					ephemeral
 				});
+				console.log(`Day: ${day}; Month: ${month}; Year: ${year}; Hour: ${hour}; Minute: ${minute}; Second: ${second}; Timezone: ${timezone}; Ephemeral: ${ephemeral}`);
 				break;
 		}
 	} else if (interaction.isAutocomplete()) {
