@@ -53,7 +53,7 @@ client.on("ready", () => {
 				},
 				{
 					name: 'ephemeral',
-					description: 'Should the response be only visible to yourself?',
+					description: 'Should the response be only visible to yourself? (Default: True)',
 					required: false,
 					type: ApplicationCommandOptionType.Boolean
 				},
@@ -64,10 +64,24 @@ client.on("ready", () => {
 					type: ApplicationCommandOptionType.Integer
 				}
 			]
+		},
+		currenttimestamp: {
+			name: 'currenttimestamp',
+			description: 'Generate an Discord timestamp from the current time',
+			type: ApplicationCommandType.ChatInput,
+			options: [
+				{
+					name: 'ephemeral',
+					description: 'Should the response be only visible to yourself? (Default: True)',
+					required: false,
+					type: ApplicationCommandOptionType.Boolean
+				}
+			]
 		}
 	};
 	let promises = [];
 	promises.push(client.application?.commands?.create(registerObject['timestamp']));
+	promises.push(client.application?.commands?.create(registerObject['currenttimestamp']));
 	Promise.all(promises).then(reolvedPromises => {
 		process.kill(process.pid, 'SIGTERM');
 	});
