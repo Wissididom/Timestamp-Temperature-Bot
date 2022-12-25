@@ -13,12 +13,10 @@ client.on("ready", () => {
 
 client.on("interactionCreate", async interaction => {
 	if (interaction.isCommand()) {
-		let ephemeral = true;
 		let unix = 0;
 		switch (interaction.commandName) {
 			case 'timestamp':
-				ephemeral = interaction.options.getBoolean('ephemeral') ?? true;
-				await interaction.deferReply({ ephemeral });
+				await interaction.deferReply({ ephemeral: interaction.options.getBoolean('ephemeral') ?? true });
 				let day = interaction.options.getInteger('day') ?? 1;
 				let month = interaction.options.getInteger('month') ?? 1;
 				let year = interaction.options.getInteger('year') ?? 1970;
@@ -30,18 +28,15 @@ client.on("interactionCreate", async interaction => {
 				unix = DateTime.now().setZone(timezone).set({ day, month, year, hour, minute, second}).toUnixInteger();
 				await interaction.editReply({
 					content: `<t:${unix}>: \`<t:${unix}>\`\n<t:${unix}:t>: \`<t:${unix}:t>\`\n<t:${unix}:T>: \`<t:${unix}:T>\`\n<t:${unix}:d>: \`<t:${unix}:d>\`\n<t:${unix}:D>: \`<t:${unix}:D>\`\n<t:${unix}:f>: \`<t:${unix}:f>\`\n` +
-								`<t:${unix}:F>: \`<t:${unix}:F>\`\n<t:${unix}:R>: \`<t:${unix}:R>\``,
-					ephemeral
+								`<t:${unix}:F>: \`<t:${unix}:F>\`\n<t:${unix}:R>: \`<t:${unix}:R>\``
 				});
 				break;
 			case 'currenttimestamp':
-				ephemeral = interaction.options.getBoolean('ephemeral') ?? true;
-				await interaction.deferReply({ ephemeral });
+				await interaction.deferReply({ ephemeral: interaction.options.getBoolean('ephemeral') ?? true });
 				unix = DateTime.now().toUnixInteger();
 				await interaction.editReply({
 					content: `<t:${unix}>: \`<t:${unix}>\`\n<t:${unix}:t>: \`<t:${unix}:t>\`\n<t:${unix}:T>: \`<t:${unix}:T>\`\n<t:${unix}:d>: \`<t:${unix}:d>\`\n<t:${unix}:D>: \`<t:${unix}:D>\`\n<t:${unix}:f>: \`<t:${unix}:f>\`\n` +
-								`<t:${unix}:F>: \`<t:${unix}:F>\`\n<t:${unix}:R>: \`<t:${unix}:R>\``,
-					ephemeral
+								`<t:${unix}:F>: \`<t:${unix}:F>\`\n<t:${unix}:R>: \`<t:${unix}:R>\``
 				});
 				break;
 		}
