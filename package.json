@@ -10,8 +10,8 @@
   "author": "Wissididom",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^14.5.0",
+    "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
-    "luxon": "^3.0.4"
+    "luxon": "^3.1.1"
   }
 }
