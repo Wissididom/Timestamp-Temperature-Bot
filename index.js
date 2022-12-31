@@ -39,7 +39,7 @@ client.on("interactionCreate", async interaction => {
 					content: `<t:${unix}>: \`<t:${unix}>\`\n<t:${unix}:t>: \`<t:${unix}:t>\`\n<t:${unix}:T>: \`<t:${unix}:T>\`\n<t:${unix}:d>: \`<t:${unix}:d>\`\n<t:${unix}:D>: \`<t:${unix}:D>\`\n<t:${unix}:f>: \`<t:${unix}:f>\`\n` +
 								`<t:${unix}:F>: \`<t:${unix}:F>\`\n<t:${unix}:R>: \`<t:${unix}:R>\``
 				});
-				console.log(`[currenttimestamp] Day: ${day}; Month: ${month}; Year: ${year}; Hour: ${hour}; Minute: ${minute}; Second: ${second}; Timezone: ${timezone}; Ephemeral: ${ephemeral}`);
+				console.log(`[currenttimestamp] Executed /currenttimestamp`);
 				break;
 		}
 	} else if (interaction.isAutocomplete()) {
