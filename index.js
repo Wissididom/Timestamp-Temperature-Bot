@@ -13,10 +13,11 @@ client.on("ready", () => {
 
 client.on("interactionCreate", async interaction => {
 	if (interaction.isCommand()) {
+		let ephemeral = interaction.options.getBoolean('ephemeral') ?? true;
 		let unix = 0;
 		switch (interaction.commandName) {
 			case 'timestamp':
-				await interaction.deferReply({ ephemeral: interaction.options.getBoolean('ephemeral') ?? true });
+				await interaction.deferReply({ ephemeral });
 				let day = interaction.options.getInteger('day') ?? 1;
 				let month = interaction.options.getInteger('month') ?? 1;
 				let year = interaction.options.getInteger('year') ?? 1970;
@@ -39,7 +40,7 @@ client.on("interactionCreate", async interaction => {
 					content: `<t:${unix}>: \`<t:${unix}>\`\n<t:${unix}:t>: \`<t:${unix}:t>\`\n<t:${unix}:T>: \`<t:${unix}:T>\`\n<t:${unix}:d>: \`<t:${unix}:d>\`\n<t:${unix}:D>: \`<t:${unix}:D>\`\n<t:${unix}:f>: \`<t:${unix}:f>\`\n` +
 								`<t:${unix}:F>: \`<t:${unix}:F>\`\n<t:${unix}:R>: \`<t:${unix}:R>\``
 				});
-				console.log(`[currenttimestamp] Executed /currenttimestamp`);
+				console.log(`[currenttimestamp] Executed /currenttimestamp (Ephemeral: ${ephemeral})`);
 				break;
 		}
 	} else if (interaction.isAutocomplete()) {
