@@ -52,16 +52,16 @@ client.on("ready", () => {
 					autocomplete: true
 				},
 				{
-					name: 'ephemeral',
-					description: 'Should the response be only visible to yourself? (Default: True)',
-					required: false,
-					type: ApplicationCommandOptionType.Boolean
-				},
-				{
 					name: 'second',
 					description: 'Second (0 - 59)',
 					required: false,
 					type: ApplicationCommandOptionType.Integer
+				},
+				{
+					name: 'public',
+					description: 'Should the response be visible to everyone? (Default: False)',
+					required: false,
+					type: ApplicationCommandOptionType.Boolean
 				}
 			]
 		},
@@ -71,8 +71,8 @@ client.on("ready", () => {
 			type: ApplicationCommandType.ChatInput,
 			options: [
 				{
-					name: 'ephemeral',
-					description: 'Should the response be only visible to yourself? (Default: True)',
+					name: 'public',
+					description: 'Should the response be visible to everyone? (Default: False)',
 					required: false,
 					type: ApplicationCommandOptionType.Boolean
 				}
