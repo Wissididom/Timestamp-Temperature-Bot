@@ -1,10 +1,30 @@
 import * as dotenv from 'dotenv';
+import {
+	Client,
+	GatewayIntentBits,
+	Partials,
+	ApplicationCommandType,
+	ApplicationCommandOptionType
+} from 'discord.js';
+
 dotenv.config();
-import { Client, GatewayIntentBits, Partials, ApplicationCommandType, ApplicationCommandOptionType } from 'discord.js';
 
 const mySecret = process.env['TOKEN']; // Discord Token
 
-const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages], partials: [Partials.User, Partials.Channel, Partials.GuildMember, Partials.Message, Partials.Reaction]}); // Discord Object
+const client = new Client({
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.DirectMessages
+	],
+	partials: [
+		Partials.User,
+		Partials.Channel,
+		Partials.GuildMember,
+		Partials.Message,
+		Partials.Reaction
+	]
+}); // Discord Object
 
 client.on("ready", () => {
 	console.log(`Logged in as ${client.user.tag}!`); // Logging
