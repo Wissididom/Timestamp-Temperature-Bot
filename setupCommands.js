@@ -1,10 +1,30 @@
 import * as dotenv from 'dotenv';
+import {
+	Client,
+	GatewayIntentBits,
+	Partials,
+	ApplicationCommandType,
+	ApplicationCommandOptionType
+} from 'discord.js';
+
 dotenv.config();
-import { Client, GatewayIntentBits, Partials, ApplicationCommandType, ApplicationCommandOptionType } from 'discord.js';
 
 const mySecret = process.env['TOKEN']; // Discord Token
 
-const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages], partials: [Partials.User, Partials.Channel, Partials.GuildMember, Partials.Message, Partials.Reaction]}); // Discord Object
+const client = new Client({
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.DirectMessages
+	],
+	partials: [
+		Partials.User,
+		Partials.Channel,
+		Partials.GuildMember,
+		Partials.Message,
+		Partials.Reaction
+	]
+}); // Discord Object
 
 client.on("ready", () => {
 	console.log(`Logged in as ${client.user.tag}!`); // Logging
@@ -52,16 +72,16 @@ client.on("ready", () => {
 					autocomplete: true
 				},
 				{
-					name: 'ephemeral',
-					description: 'Should the response be only visible to yourself? (Default: True)',
-					required: false,
-					type: ApplicationCommandOptionType.Boolean
-				},
-				{
 					name: 'second',
 					description: 'Second (0 - 59)',
 					required: false,
 					type: ApplicationCommandOptionType.Integer
+				},
+				{
+					name: 'public',
+					description: 'Should the response be visible to everyone? (Default: False)',
+					required: false,
+					type: ApplicationCommandOptionType.Boolean
 				}
 			]
 		},
@@ -71,8 +91,8 @@ client.on("ready", () => {
 			type: ApplicationCommandType.ChatInput,
 			options: [
 				{
-					name: 'ephemeral',
-					description: 'Should the response be only visible to yourself? (Default: True)',
+					name: 'public',
+					description: 'Should the response be visible to everyone? (Default: False)',
 					required: false,
 					type: ApplicationCommandOptionType.Boolean
 				}
