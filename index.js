@@ -29,14 +29,14 @@ const client = new Client({
 
 function getContent(unix) {
 	return `
-		<t:${unix}>: \`<t:${unix}>\`
-		<t:${unix}:t>: \`<t:${unix}:t>\`
-		<t:${unix}:T>: \`<t:${unix}:T>\`
-		<t:${unix}:d>: \`<t:${unix}:d>\`
-		<t:${unix}:D>: \`<t:${unix}:D>\`
-		<t:${unix}:f>: \`<t:${unix}:f>\`
-		<t:${unix}:F>: \`<t:${unix}:F>\`
-		<t:${unix}:R>: \`<t:${unix}:R>\`
+<t:${unix}>: \`<t:${unix}>\`
+<t:${unix}:t>: \`<t:${unix}:t>\`
+<t:${unix}:T>: \`<t:${unix}:T>\`
+<t:${unix}:d>: \`<t:${unix}:d>\`
+<t:${unix}:D>: \`<t:${unix}:D>\`
+<t:${unix}:f>: \`<t:${unix}:f>\`
+<t:${unix}:F>: \`<t:${unix}:F>\`
+<t:${unix}:R>: \`<t:${unix}:R>\`
 	`;
 }
 
@@ -52,7 +52,7 @@ client.on("ready", () => {
 
 client.on("interactionCreate", async interaction => {
 	if (interaction.isCommand()) {
-		let ephemeral = interaction.options.getBoolean('public') == false ?? false;
+		let ephemeral = !interaction.options.getBoolean('public');
 		let unix = 0;
 		switch (interaction.commandName) {
 			case 'timestamp':
@@ -82,14 +82,14 @@ client.on("interactionCreate", async interaction => {
 		}
 	} else if (interaction.isAutocomplete()) {
 		let timezoneResponse = Intl.supportedValuesOf('timeZone').filter(zone => {
-			return zone.toLowerCase().indexOf(interaction.options.getFocused().replace(' ', '_').toLowerCase()) >= 0
+			return zone.toLowerCase().indexOf(interaction.options.getFocused().replace(' ', '_').toLowerCase()) >= 0;
 		});
 		timezoneResponse.length = Math.min(timezoneResponse.length, 25); // send max. 25 choices
 		await interaction.respond(timezoneResponse.map(zone => {
 			return {
 				name: zone,
 				value: zone
-			}
+			};
 		})).catch(err => console.error(JSON.stringify(err)));
 	}
 });
