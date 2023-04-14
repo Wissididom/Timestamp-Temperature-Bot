@@ -31,7 +31,7 @@ client.on("ready", () => {
 	const registerObject = {
 		timestamp: {
 			name: 'timestamp',
-			description: 'Generate an Discord timestamp from time and timezone',
+			description: 'Generate Discord timestamps based on a given time and timezone',
 			type: ApplicationCommandType.ChatInput,
 			options: [
 				{
@@ -87,7 +87,7 @@ client.on("ready", () => {
 		},
 		currenttimestamp: {
 			name: 'currenttimestamp',
-			description: 'Generate an Discord timestamp from the current time',
+			description: 'Generate Discord timestamps based on the current time',
 			type: ApplicationCommandType.ChatInput,
 			options: [
 				{
