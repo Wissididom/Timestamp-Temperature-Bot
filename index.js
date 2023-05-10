@@ -29,14 +29,14 @@ const client = new Client({
 
 function getContent(unix) {
 	return `
-<t:${unix}>: \`<t:${unix}>\`
-<t:${unix}:t>: \`<t:${unix}:t>\`
-<t:${unix}:T>: \`<t:${unix}:T>\`
-<t:${unix}:d>: \`<t:${unix}:d>\`
-<t:${unix}:D>: \`<t:${unix}:D>\`
-<t:${unix}:f>: \`<t:${unix}:f>\`
-<t:${unix}:F>: \`<t:${unix}:F>\`
-<t:${unix}:R>: \`<t:${unix}:R>\`
+\`<t:${unix}>\`: <t:${unix}>
+\`<t:${unix}:t>\`: <t:${unix}:t>
+\`<t:${unix}:T>\`: <t:${unix}:T>
+\`<t:${unix}:d>\`: <t:${unix}:d>
+\`<t:${unix}:D>\`: <t:${unix}:D>
+\`<t:${unix}:f>\`: <t:${unix}:f>
+\`<t:${unix}:F>\`: <t:${unix}:F>
+\`<t:${unix}:R>\`: <t:${unix}:R>
 	`;
 }
 
