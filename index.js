@@ -10,8 +10,6 @@ import {
 
 dotenv.config();
 
-const mySecret = process.env['TOKEN']; // Discord Token
-
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -25,10 +23,22 @@ const client = new Client({
 		Partials.Message,
 		Partials.Reaction
 	]
-}); // Discord Object
+});
 
-function getContent(unix) {
-	return `
+function getContent(unix, preferUsability = false) {
+	if (preferUsability)
+		return `
+<t:${unix}>: \`<t:${unix}>\`
+<t:${unix}:t>: \`<t:${unix}:t>\`
+<t:${unix}:T>: \`<t:${unix}:T>\`
+<t:${unix}:d>: \`<t:${unix}:d>\`
+<t:${unix}:D>: \`<t:${unix}:D>\`
+<t:${unix}:f>: \`<t:${unix}:f>\`
+<t:${unix}:F>: \`<t:${unix}:F>\`
+<t:${unix}:R>: \`<t:${unix}:R>\`
+	`;
+	else
+		return `
 \`<t:${unix}>\`: <t:${unix}>
 \`<t:${unix}:t>\`: <t:${unix}:t>
 \`<t:${unix}:T>\`: <t:${unix}:T>
@@ -52,6 +62,7 @@ client.on("ready", () => {
 
 client.on("interactionCreate", async interaction => {
 	if (interaction.isCommand()) {
+		let preferUsability = interaction.options.getBoolean('prefer_usability') ?? false;
 		let ephemeral = !interaction.options.getBoolean('public');
 		let unix = 0;
 		switch (interaction.commandName) {
@@ -67,7 +78,7 @@ client.on("interactionCreate", async interaction => {
 				//Intl.DateTimeFormat().resolvedOptions().timeZone // own timezone
 				unix = DateTime.now().setZone(timezone).set({ day, month, year, hour, minute, second}).toUnixInteger();
 				await interaction.editReply({
-					content: getContent(unix)
+					content: getContent(unix, preferUsability)
 				});
 				console.log(getConsoleContent(false, ephemeral, day, month, year, hour, minute, second, timezone));
 				break;
@@ -75,7 +86,7 @@ client.on("interactionCreate", async interaction => {
 				await interaction.deferReply({ ephemeral });
 				unix = DateTime.now().toUnixInteger();
 				await interaction.editReply({
-					content: getContent(unix)
+					content: getContent(unix, preferUsability)
 				});
 				console.log(getConsoleContent(true, ephemeral));
 				break;
@@ -94,4 +105,4 @@ client.on("interactionCreate", async interaction => {
 	}
 });
 
-client.login(mySecret);
+client.login(process.env['TOKEN']);
