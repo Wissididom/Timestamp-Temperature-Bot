@@ -9,8 +9,6 @@ import {
 
 dotenv.config();
 
-const mySecret = process.env['TOKEN']; // Discord Token
-
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -78,6 +76,12 @@ client.on("ready", () => {
 					type: ApplicationCommandOptionType.Integer
 				},
 				{
+					name: 'prefer_usability',
+					description: '"preview: code" (true); "code: preview" (false)',
+					required: false,
+					type: ApplicationCommandOptionType.Boolean
+				},
+				{
 					name: 'public',
 					description: 'Should the response be visible to everyone? (Default: False)',
 					required: false,
@@ -90,6 +94,12 @@ client.on("ready", () => {
 			description: 'Generate Discord timestamps based on the current time',
 			type: ApplicationCommandType.ChatInput,
 			options: [
+				{
+					name: 'prefer_usability',
+					description: '"preview: code" (true); "code: preview" (false)',
+					required: false,
+					type: ApplicationCommandOptionType.Boolean
+				},
 				{
 					name: 'public',
 					description: 'Should the response be visible to everyone? (Default: False)',
@@ -107,4 +117,4 @@ client.on("ready", () => {
 	});
 });
 
-client.login(mySecret);
+client.login(process.env['TOKEN']);
