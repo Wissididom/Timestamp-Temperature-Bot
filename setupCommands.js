@@ -79,7 +79,7 @@ client.on("ready", () => {
 					name: 'prefer_usability',
 					description: '"preview: code" (true); "code: preview" (false)',
 					required: false,
-					type: ApplicationCommandOptionType.Integer
+					type: ApplicationCommandOptionType.Boolean
 				},
 				{
 					name: 'public',
@@ -98,7 +98,7 @@ client.on("ready", () => {
 					name: 'prefer_usability',
 					description: '"preview: code" (true); "code: preview" (false)',
 					required: false,
-					type: ApplicationCommandOptionType.Integer
+					type: ApplicationCommandOptionType.Boolean
 				},
 				{
 					name: 'public',
