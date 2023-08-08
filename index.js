@@ -4,6 +4,8 @@ import { DateTime } from "luxon";
 
 dotenv.config();
 
+const SUPPORTED_TIMEZONES = Intl.supportedValuesOf("timeZone");
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -112,7 +114,7 @@ client.on("interactionCreate", async (interaction) => {
         break;
     }
   } else if (interaction.isAutocomplete()) {
-    let timezoneResponse = Intl.supportedValuesOf("timeZone").filter((zone) => {
+    let timezoneResponse = SUPPORTED_TIMEZONES.filter((zone) => {
       return (
         zone
           .toLowerCase()
