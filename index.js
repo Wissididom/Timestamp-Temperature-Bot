@@ -72,21 +72,37 @@ client.on("interactionCreate", async (interaction) => {
       interaction.options.getBoolean("prefer_usability") ?? false;
     let ephemeral = !interaction.options.getBoolean("public");
     let unix = 0;
+    let { day, month, year, hour, minute, second, timezone, src, dst } = [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      "",
+      "",
+      "",
+    ];
     switch (interaction.commandName) {
       case "timestamp":
         await interaction.deferReply({ ephemeral });
-        let day = interaction.options.getInteger("day") ?? 1;
-        let month = interaction.options.getInteger("month") ?? 1;
-        let year = interaction.options.getInteger("year") ?? 1970;
-        let hour = interaction.options.getInteger("hour") ?? 0;
-        let minute = interaction.options.getInteger("minute") ?? 0;
-        let second = interaction.options.getInteger("second") ?? 0;
-        let timezone = interaction.options.getString("timezone");
+        day = interaction.options.getInteger("day") ?? 1;
+        month = interaction.options.getInteger("month") ?? 1;
+        year = interaction.options.getInteger("year") ?? 1970;
+        hour = interaction.options.getInteger("hour") ?? 0;
+        minute = interaction.options.getInteger("minute") ?? 0;
+        second = interaction.options.getInteger("second") ?? 0;
+        timezone = interaction.options.getString("timezone");
         //Intl.DateTimeFormat().resolvedOptions().timeZone // own timezone
-        unix = DateTime.now()
-          .setZone(timezone)
-          .set({ day, month, year, hour, minute, second })
-          .toUnixInteger();
+        console.log(`Timezone: ${timezone}`);
+        unix = DateTime.fromObject({
+          day,
+          month,
+          year,
+          hour,
+          minute,
+          second,
+        }, timezone).toUnixInteger();
         await interaction.editReply({
           content: getContent(unix, preferUsability),
         });
@@ -112,6 +128,55 @@ client.on("interactionCreate", async (interaction) => {
         });
         console.log(getConsoleContent(true, ephemeral));
         break;
+      case "converttime":
+        await interaction.deferReply({ ephemeral });
+        day = interaction.options.getInteger("day") ?? 1;
+        month = interaction.options.getInteger("month") ?? 1;
+        year = interaction.options.getInteger("year") ?? 1;
+        hour = interaction.options.getInteger("hour") ?? 1;
+        minute = interaction.options.getInteger("minute") ?? 1;
+        second = interaction.options.getInteger("second") ?? 1;
+        src = interaction.options.getString("src");
+        dst = interaction.options.getString("dst");
+        let srcTimeObj = DateTime.fromObject({
+          day,
+          month,
+          year,
+          hour,
+          minute,
+          second,
+        }, src);
+        let srcTime = srcTimeObj.toLocaleString(
+          DateTime.DATETIME_HUGE_WITH_SECONDS,
+          { locale: "en-US" },
+        );
+        let dstTime = srcTimeObj
+          .setZone(dst)
+          .toLocaleString(DateTime.DATETIME_HUGE_WITH_SECONDS, {
+            locale: "en-US",
+          });
+        await interaction.editReply({
+          content: `\`${srcTime}\` (Timezone: \`${src}\`) in \`${dst}\` is \`${dstTime}\``,
+        });
+        console.log(
+          `[converttime] Day: ${day}; Month: ${month}; Year: ${year}; Hour: ${hour}; Minute: ${minute}; Second: ${second}; Source: ${src}; Destination: ${dst}; Ephemeral: ${ephemeral}`,
+        );
+        break;
+      case "convertcurrenttime":
+        await interaction.deferReply({ ephemeral });
+        let currenttime = DateTime.now()
+          .setZone(interaction.options.getString("timezone"))
+          .toLocaleString(DateTime.DATETIME_HUGE_WITH_SECONDS, {
+            locale: "en-US",
+          });
+        await interaction.editReply({
+          content: `The current time in \`${interaction.options.getString(
+            "timezone",
+          )}\` is \`${currenttime}\``,
+        });
+        console.log(
+          `[convertcurrenttime] Executed /convertcurrenttime (Ephemeral: ${ephemeral})`,
+        );
     }
   } else if (interaction.isAutocomplete()) {
     let timezoneResponse = SUPPORTED_TIMEZONES.filter((zone) => {
