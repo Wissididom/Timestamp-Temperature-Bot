@@ -94,7 +94,6 @@ client.on("interactionCreate", async (interaction) => {
         second = interaction.options.getInteger("second") ?? 0;
         timezone = interaction.options.getString("timezone");
         //Intl.DateTimeFormat().resolvedOptions().timeZone // own timezone
-        console.log(`Timezone: ${timezone}`);
         unix = DateTime.fromObject(
           {
             day,
