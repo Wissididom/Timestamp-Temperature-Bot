@@ -111,6 +111,91 @@ client.on("ready", () => {
         },
       ],
     },
+    converttime: {
+      name: "converttime",
+      description: "Convert a date and time between timezones",
+      type: ApplicationCommandType.ChatInput,
+      options: [
+        {
+          name: "day",
+          description: "Day (1 - 31)",
+          required: true,
+          type: ApplicationCommandOptionType.Integer,
+        },
+        {
+          name: "month",
+          description: "Month (1 - 12)",
+          required: true,
+          type: ApplicationCommandOptionType.Integer,
+        },
+        {
+          name: "year",
+          description: "Year (min. 1970)",
+          required: true,
+          type: ApplicationCommandOptionType.Integer,
+        },
+        {
+          name: "hour",
+          description: "Hour (0 - 23)",
+          required: true,
+          type: ApplicationCommandOptionType.Integer,
+        },
+        {
+          name: "minute",
+          description: "Minute (0 - 59)",
+          required: true,
+          type: ApplicationCommandOptionType.Integer,
+        },
+        {
+          name: "src",
+          description: "Source Timezone (Format: continent/city)",
+          required: true,
+          type: ApplicationCommandOptionType.String,
+          autocomplete: true,
+        },
+        {
+          name: "dst",
+          description: "Destination Timezone (Format: continent/city)",
+          required: true,
+          type: ApplicationCommandOptionType.String,
+          autocomplete: true,
+        },
+        {
+          name: "second",
+          description: "Second (0 - 59)",
+          required: false,
+          type: ApplicationCommandOptionType.Integer,
+        },
+        {
+          name: "public",
+          description:
+            "Should the response be visible to everyone? (Default: False)",
+          required: false,
+          type: ApplicationCommandOptionType.Boolean,
+        },
+      ],
+    },
+    convertcurrenttime: {
+      name: "convertcurrenttime",
+      description: "Convert the current date and time to another timezone",
+      type: ApplicationCommandType.ChatInput,
+      options: [
+        {
+          name: "timezone",
+          description: "Timezone (Format: continent/city)",
+          required: true,
+          type: ApplicationCommandOptionType.String,
+          autocomplete: true,
+        },
+        {
+          name: "public",
+          description:
+            "Should the response be visible to everyone? (Default: False)",
+          required: false,
+          type: ApplicationCommandOptionType.Boolean,
+        },
+      ],
+    },
   };
   let promises = [];
   promises.push(
@@ -118,6 +203,12 @@ client.on("ready", () => {
   );
   promises.push(
     client.application?.commands?.create(registerObject["currenttimestamp"]),
+  );
+  promises.push(
+    client.application?.commands?.create(registerObject["converttime"]),
+  );
+  promises.push(
+    client.application?.commands?.create(registerObject["convertcurrenttime"]),
   );
   Promise.all(promises).then((reolvedPromises) => {
     process.kill(process.pid, "SIGTERM");
