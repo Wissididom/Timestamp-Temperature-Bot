@@ -103,7 +103,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
             minute,
             second,
           },
-          timezone,
+          { zone: timezone },
         ).toUnixInteger();
         await interaction.editReply({
           content: getContent(unix, preferUsability),
@@ -149,7 +149,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
             minute,
             second,
           },
-          src,
+          { zone: src },
         );
         let srcTime = srcTimeObj.toLocaleString(
           DateTime.DATETIME_HUGE_WITH_SECONDS,
@@ -169,8 +169,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
         break;
       case "convertcurrenttime":
         await interaction.deferReply({ ephemeral });
+        timezone = interaction.options.getString("timezone");
         let currenttime = DateTime.now()
-          .setZone(interaction.options.getString("timezone"))
+          .setZone(timezone)
           .toLocaleString(DateTime.DATETIME_HUGE_WITH_SECONDS, {
             locale: "en-US",
           });
