@@ -1,5 +1,5 @@
 import * as dotenv from "dotenv";
-import { Client, GatewayIntentBits, Partials } from "discord.js";
+import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
 import { DateTime } from "luxon";
 
 dotenv.config();
@@ -62,11 +62,11 @@ function getConsoleContent(
   return `[timestamp] Day: ${day}; Month: ${month}; Year: ${year}; Hour: ${hour}; Minute: ${minute}; Second: ${second}; Timezone: ${timezone}; Ephemeral: ${ephemeral}`;
 }
 
-client.on("ready", () => {
+client.on(Events.ClientReady, () => {
   console.log(`Logged in as ${client.user.tag}!`); // Logging
 });
 
-client.on("interactionCreate", async (interaction) => {
+client.on(Events.InteractionCreate, async (interaction) => {
   if (interaction.isCommand()) {
     let preferUsability =
       interaction.options.getBoolean("prefer_usability") ?? false;
