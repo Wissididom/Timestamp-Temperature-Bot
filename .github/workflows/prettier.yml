@@ -8,13 +8,15 @@ on:
 
 jobs:
   check-format:
+    name: Check Format
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Install dependencies
-        run: npm i
-      - name: Check formatting using prettier
-        uses: actionsx/prettier@v3
-        with:
-          args: --check .
+        run: |
+          npm ci
+      - name: Run prettier
+        run: |
+          npm run format
+          git --no-pager diff --exit-code --color=never
