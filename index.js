@@ -1,5 +1,5 @@
 import * as dotenv from "dotenv";
-import { Client, GatewayIntentBits, Partials } from "discord.js";
+import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
 import { DateTime } from "luxon";
 
 dotenv.config();
@@ -62,11 +62,11 @@ function getConsoleContent(
   return `[timestamp] Day: ${day}; Month: ${month}; Year: ${year}; Hour: ${hour}; Minute: ${minute}; Second: ${second}; Timezone: ${timezone}; Ephemeral: ${ephemeral}`;
 }
 
-client.on("ready", () => {
+client.on(Events.ClientReady, () => {
   console.log(`Logged in as ${client.user.tag}!`); // Logging
 });
 
-client.on("interactionCreate", async (interaction) => {
+client.on(Events.InteractionCreate, async (interaction) => {
   if (interaction.isCommand()) {
     let preferUsability =
       interaction.options.getBoolean("prefer_usability") ?? false;
@@ -103,7 +103,7 @@ client.on("interactionCreate", async (interaction) => {
             minute,
             second,
           },
-          timezone,
+          { zone: timezone },
         ).toUnixInteger();
         await interaction.editReply({
           content: getContent(unix, preferUsability),
@@ -149,7 +149,7 @@ client.on("interactionCreate", async (interaction) => {
             minute,
             second,
           },
-          src,
+          { zone: src },
         );
         let srcTime = srcTimeObj.toLocaleString(
           DateTime.DATETIME_HUGE_WITH_SECONDS,
@@ -169,8 +169,9 @@ client.on("interactionCreate", async (interaction) => {
         break;
       case "convertcurrenttime":
         await interaction.deferReply({ ephemeral });
+        timezone = interaction.options.getString("timezone");
         let currenttime = DateTime.now()
-          .setZone(interaction.options.getString("timezone"))
+          .setZone(timezone)
           .toLocaleString(DateTime.DATETIME_HUGE_WITH_SECONDS, {
             locale: "en-US",
           });
