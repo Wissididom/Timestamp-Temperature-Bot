@@ -1,8 +1,6 @@
-import * as dotenv from "dotenv";
+import "dotenv/config";
 import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
 import { DateTime } from "luxon";
-
-dotenv.config();
 
 const SUPPORTED_TIMEZONES = Intl.supportedValuesOf("timeZone");
 
