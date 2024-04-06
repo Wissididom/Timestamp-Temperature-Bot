@@ -158,6 +158,18 @@ let commands = [
     console.log(
       `Started refreshing ${commands.length} application (/) commands.`,
     );
+    for (let i = 0; i < commands.length; i++) {
+      commands[i] = commands[i].toJSON();
+      commands[i].integration_types = [
+        0, // Guild Install
+        1, // User Install
+      ];
+      commands[i].contexts = [
+        0, // Guild
+        1, // Bot DM
+        2, // Private Channel
+      ];
+    }
     const userData = await rest.get(Routes.user());
     const userId = userData.id;
     const data = await rest.put(Routes.applicationCommands(userId), {
