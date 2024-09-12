@@ -13,7 +13,7 @@
   "author": "Wissididom",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^14.16.0",
+    "discord.js": "^14.16.2",
     "dotenv": "^16.4.5",
     "luxon": "^3.5.0"
   },
