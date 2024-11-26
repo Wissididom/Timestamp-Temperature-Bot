@@ -1,0 +1,10 @@
+services:
+  timestamp-temperature-bot:
+    image: ghcr.io/wissididom/timestamp-temperature-bot
+    container_name: timestamp-temperature-bot
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
