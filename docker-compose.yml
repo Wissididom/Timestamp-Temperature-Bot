@@ -1,0 +1,8 @@
+services:
+  timestamp-temperature-bot:
+    image: ghcr.io/wissididom/timestamp-temperature-bot
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+    env_file:
+      - .env
