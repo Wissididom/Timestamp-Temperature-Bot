@@ -181,6 +181,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
         console.log(
           `[convertcurrenttime] Executed /convertcurrenttime (Ephemeral: ${ephemeral})`,
         );
+        break;
       case "temperature":
         await interaction.deferReply({ ephemeral });
         let response = "N/A";
