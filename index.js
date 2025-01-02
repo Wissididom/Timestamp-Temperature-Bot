@@ -1,5 +1,11 @@
 import "dotenv/config";
-import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
+import {
+  Client,
+  Events,
+  GatewayIntentBits,
+  MessageFlags,
+  Partials,
+} from "discord.js";
 import { DateTime } from "luxon";
 
 const SUPPORTED_TIMEZONES = Intl.supportedValuesOf("timeZone");
@@ -46,7 +52,7 @@ function getContent(unix, preferUsability = false) {
 
 function getConsoleContent(
   currenttimestamp,
-  ephemeral,
+  pub,
   day,
   month,
   year,
@@ -56,8 +62,8 @@ function getConsoleContent(
   timezone,
 ) {
   if (currenttimestamp)
-    return `[currenttimestamp] Executed /currenttimestamp (Ephemeral: ${ephemeral})`;
-  return `[timestamp] Day: ${day}; Month: ${month}; Year: ${year}; Hour: ${hour}; Minute: ${minute}; Second: ${second}; Timezone: ${timezone}; Ephemeral: ${ephemeral}`;
+    return `[currenttimestamp] Executed /currenttimestamp (Public: ${pub})`;
+  return `[timestamp] Day: ${day}; Month: ${month}; Year: ${year}; Hour: ${hour}; Minute: ${minute}; Second: ${second}; Timezone: ${timezone}; Public: ${pub}`;
 }
 
 client.on(Events.ClientReady, () => {
@@ -68,7 +74,12 @@ client.on(Events.InteractionCreate, async (interaction) => {
   if (interaction.isCommand()) {
     let preferUsability =
       interaction.options.getBoolean("prefer_usability") ?? false;
-    let ephemeral = !interaction.options.getBoolean("public");
+    let pub = interaction.options.getBoolean("public") == true;
+    if (pub) {
+      await interaction.deferReply();
+    } else {
+      await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+    }
     let unix = 0;
     let { day, month, year, hour, minute, second, timezone, src, dst } = [
       1,
@@ -83,7 +94,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
     ];
     switch (interaction.commandName) {
       case "timestamp":
-        await interaction.deferReply({ ephemeral });
         day = interaction.options.getInteger("day") ?? 1;
         month = interaction.options.getInteger("month") ?? 1;
         year = interaction.options.getInteger("year") ?? 1970;
@@ -109,7 +119,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
         console.log(
           getConsoleContent(
             false,
-            ephemeral,
+            pub,
             day,
             month,
             year,
@@ -121,15 +131,13 @@ client.on(Events.InteractionCreate, async (interaction) => {
         );
         break;
       case "currenttimestamp":
-        await interaction.deferReply({ ephemeral });
         unix = DateTime.now().toUnixInteger();
         await interaction.editReply({
           content: getContent(unix, preferUsability),
         });
-        console.log(getConsoleContent(true, ephemeral));
+        console.log(getConsoleContent(true, pub));
         break;
       case "converttime":
-        await interaction.deferReply({ ephemeral });
         day = interaction.options.getInteger("day") ?? 1;
         month = interaction.options.getInteger("month") ?? 1;
         year = interaction.options.getInteger("year") ?? 1;
@@ -162,11 +170,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
           content: `\`${srcTime}\` (Timezone: \`${src}\`) in \`${dst}\` is \`${dstTime}\``,
         });
         console.log(
-          `[converttime] Day: ${day}; Month: ${month}; Year: ${year}; Hour: ${hour}; Minute: ${minute}; Second: ${second}; Source: ${src}; Destination: ${dst}; Ephemeral: ${ephemeral}`,
+          `[converttime] Day: ${day}; Month: ${month}; Year: ${year}; Hour: ${hour}; Minute: ${minute}; Second: ${second}; Source: ${src}; Destination: ${dst}; Public: ${pub}`,
         );
         break;
       case "convertcurrenttime":
-        await interaction.deferReply({ ephemeral });
         timezone = interaction.options.getString("timezone");
         let currenttime = DateTime.now()
           .setZone(timezone)
@@ -179,11 +186,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
           )}\` is \`${currenttime}\``,
         });
         console.log(
-          `[convertcurrenttime] Executed /convertcurrenttime (Ephemeral: ${ephemeral})`,
+          `[convertcurrenttime] Executed /convertcurrenttime (Public: ${pub})`,
         );
         break;
       case "temperature":
-        await interaction.deferReply({ ephemeral });
         let response = "N/A";
         let source = interaction.options.getString("source");
         let target = interaction.options.getString("target");
@@ -312,8 +318,12 @@ client.on(Events.InteractionCreate, async (interaction) => {
         await interaction.editReply({
           content: response,
         });
-        console.log(`[temperature] ${response} (Ephemeral: ${ephemeral})`);
+        console.log(`[temperature] ${response} (Public: ${pub})`);
         break;
+      default:
+        await interaction.editReply({
+          content: "subcommand not known! How did you even call it?",
+        });
     }
   } else if (interaction.isAutocomplete()) {
     let timezoneResponse = SUPPORTED_TIMEZONES.filter((zone) => {
