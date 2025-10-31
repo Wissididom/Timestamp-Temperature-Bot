@@ -36,6 +36,8 @@ function getContent(unix, preferUsability = false) {
 <t:${unix}:f>: \`<t:${unix}:f>\`
 <t:${unix}:F>: \`<t:${unix}:F>\`
 <t:${unix}:R>: \`<t:${unix}:R>\`
+<t:${unix}:s>: \`<t:${unix}:s>\`
+<t:${unix}:S>: \`<t:${unix}:S>\`
 	`;
   else
     return `
@@ -47,6 +49,8 @@ function getContent(unix, preferUsability = false) {
 \`<t:${unix}:f>\`: <t:${unix}:f>
 \`<t:${unix}:F>\`: <t:${unix}:F>
 \`<t:${unix}:R>\`: <t:${unix}:R>
+\`<t:${unix}:s>\`: <t:${unix}:s>
+\`<t:${unix}:S>\`: <t:${unix}:S>
 	`;
 }
 
