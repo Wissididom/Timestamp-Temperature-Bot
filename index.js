@@ -38,6 +38,7 @@ function getContent(unix, preferUsability = false) {
 <t:${unix}:s>: \`<t:${unix}:s>\`
 <t:${unix}:S>: \`<t:${unix}:S>\`
 <t:${unix}:R>: \`<t:${unix}:R>\`
+-# [Consider using @time instead](<https://x.com/advaithj1/status/2012686850989920377>)
 	`;
   else
     return `
@@ -51,6 +52,7 @@ function getContent(unix, preferUsability = false) {
 \`<t:${unix}:s>\`: <t:${unix}:s>
 \`<t:${unix}:S>\`: <t:${unix}:S>
 \`<t:${unix}:R>\`: <t:${unix}:R>
+-# [Consider using @time instead](<https://x.com/advaithj1/status/2012686850989920377>)
 	`;
 }
 
